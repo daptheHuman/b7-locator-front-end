@@ -15,6 +15,7 @@ import RetainedSampleDialog from '../dialog/retained-sample-dialog';
 import {
   getDestroySamples,
   getRetainedSamples,
+  createDestroyReport,
   deleteRetainedSample,
   updateRetainedSample,
 } from '../api/retained-samples';
@@ -52,6 +53,10 @@ export default function RetainedSamplePage() {
       setDestroySamples(_samples);
     });
   }, []);
+
+  const handleDestroy = (date: Dayjs) => {
+    createDestroyReport(date);
+  };
 
   const handleProcessRowUpdate = React.useCallback(
     (updatedRow: UpdateAndDeleteRetainedSample) =>
@@ -122,7 +127,11 @@ export default function RetainedSamplePage() {
         />
       </TabPanel>
       <TabPanel index={1} value={tabsValue}>
-        <DestroyDataGrid fetchData={fetchDataDestroy} samples={destroySamples} />
+        <DestroyDataGrid
+          fetchData={fetchDataDestroy}
+          samples={destroySamples}
+          handleDestroy={handleDestroy}
+        />
       </TabPanel>
     </>
   );

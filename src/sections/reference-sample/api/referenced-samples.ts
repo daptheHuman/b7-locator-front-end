@@ -57,8 +57,37 @@ const getDestroySamples = (date: Dayjs) => {
     });
 };
 
+const createDestroyReport = (date: Dayjs) => {
+  const month = date.month() + 1;
+  const year = date.year();
+  axios
+    .get(`/reference/generate-destroy-report?month=${month}&year=${year}`, {
+      responseType: 'blob',
+    })
+    .then((blob) => {
+      const href = URL.createObjectURL(blob.data);
+
+      // create "a" HTML element with href to file & click
+      const link = document.createElement('a');
+      link.href = href;
+      const filename = blob.headers['content-disposition'].split('filename=')[1];
+
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+
+      // clean up "a" element & remove ObjectURL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(href);
+    })
+    .catch((error: AxiosError) => {
+      throw error.response?.data;
+    });
+};
+
 export {
   getDestroySamples,
+  createDestroyReport,
   getReferencedSamples,
   createReferencedSample,
   deleteReferencedSample,

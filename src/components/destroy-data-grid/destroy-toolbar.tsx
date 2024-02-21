@@ -2,26 +2,25 @@ import { Button } from '@mui/material';
 import {
   GridToolbarExport,
   GridToolbarContainer,
-  GridRowSelectionModel,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
   GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
 
 interface DestroyToolbarProps {
-  rowSelectionModel: GridRowSelectionModel;
+  samples: ReferencedSample[] | RetainedSample[];
+  handleDestroy: () => void;
 }
-const DestroyToolbar = ({ rowSelectionModel }: DestroyToolbarProps) => {
-  const hasSelection = rowSelectionModel.length > 0;
+const DestroyToolbar = ({ samples, handleDestroy }: DestroyToolbarProps) => {
+  const hasSample = samples.length > 0;
 
-  const handleDestroy = () => {};
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
       <GridToolbarExport />
-      <Button variant="contained" disabled={!hasSelection} onClick={handleDestroy}>
+      <Button variant="contained" disabled={!hasSample} onClick={handleDestroy}>
         Destroy
       </Button>
     </GridToolbarContainer>

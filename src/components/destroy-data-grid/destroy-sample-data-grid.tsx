@@ -3,12 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { Box } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import {
-  DataGrid,
-  GridColDef,
-  GridValueSetterParams,
-  GridRowSelectionModel,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridValueSetterParams } from '@mui/x-data-grid';
 
 import DestroyToolbar from './destroy-toolbar';
 import { dateSetter, dateFormatter } from '../../sections/reference-sample/utils';
@@ -16,10 +11,10 @@ import { dateSetter, dateFormatter } from '../../sections/reference-sample/utils
 interface DestroyDataGridProps {
   samples: RetainedSample[] | ReferencedSample[];
   fetchData: (date: Dayjs) => void;
+  handleDestroy: (date: Dayjs) => void;
 }
 
-const DestroyDataGrid = ({ samples, fetchData }: DestroyDataGridProps) => {
-  const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
+const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridProps) => {
   const [selectedDate, setSelectedDate] = React.useState<Dayjs>(dayjs(Date.now()));
 
   React.useEffect(() => {
@@ -30,8 +25,8 @@ const DestroyDataGrid = ({ samples, fetchData }: DestroyDataGridProps) => {
     setSelectedDate(dayjs(date));
   };
 
-  const handleSelectionModel = (rowSelection: GridRowSelectionModel) => {
-    setRowSelectionModel(rowSelection);
+  const handleDestroyReports = () => {
+    handleDestroy(selectedDate);
   };
 
   const columns = React.useMemo(() => {
@@ -117,15 +112,14 @@ const DestroyDataGrid = ({ samples, fetchData }: DestroyDataGridProps) => {
       <DataGrid
         rows={samples}
         columns={columns}
-        checkboxSelection
         keepNonExistentRowsSelected
-        onRowSelectionModelChange={handleSelectionModel}
         slots={{
           toolbar: DestroyToolbar,
         }}
         slotProps={{
           toolbar: {
-            rowSelectionModel,
+            samples,
+            handleDestroy: handleDestroyReports,
           },
         }}
       />

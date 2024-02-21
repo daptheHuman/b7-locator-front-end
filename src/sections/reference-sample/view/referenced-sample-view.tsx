@@ -14,6 +14,7 @@ import RetainedSampleDialog from '../dialog/reference-sample-dialog';
 import DestroyDataGrid from '../../../components/destroy-data-grid/destroy-sample-data-grid';
 import {
   getDestroySamples,
+  createDestroyReport,
   getReferencedSamples,
   deleteReferencedSample,
   updateReferencedSample,
@@ -48,11 +49,15 @@ export default function ReferencedSamplePage() {
     });
   }, []);
 
-  const fetchDataDestroy = React.useCallback((date: Dayjs) => {
+  const fetchDestroySample = React.useCallback((date: Dayjs) => {
     getDestroySamples(date).then((_samples) => {
       setDestroySamples(_samples);
     });
   }, []);
+
+  const handleDestroy = (date: Dayjs) => {
+    createDestroyReport(date);
+  };
 
   const handleProcessRowUpdate = React.useCallback(
     (updatedRow: UpdateAndDeleteReferencedSample) =>
@@ -123,7 +128,11 @@ export default function ReferencedSamplePage() {
         />
       </TabPanel>
       <TabPanel index={1} value={tabsValue}>
-        <DestroyDataGrid fetchData={fetchDataDestroy} samples={destroySamples} />
+        <DestroyDataGrid
+          fetchData={fetchDestroySample}
+          samples={destroySamples}
+          handleDestroy={handleDestroy}
+        />
       </TabPanel>
     </>
   );
