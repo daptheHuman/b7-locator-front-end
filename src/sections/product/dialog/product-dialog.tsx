@@ -1,22 +1,26 @@
 import React from 'react';
+import { TypeOf } from 'zod';
 import { FaX } from 'react-icons/fa6';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import {
+  Box,
   Alert,
   Button,
   Dialog,
   styled,
   Snackbar,
-  TextField,
   IconButton,
   AlertProps,
   DialogTitle,
   DialogContent,
-  DialogActions,
   DialogContentText,
 } from '@mui/material';
 
+import { newProductSchema } from './resolver';
 import { createProduct } from '../api/products';
+import FormInput from '../../../components/form-input/form-input';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -33,21 +37,35 @@ interface RetainedSampleDialogProps {
   fetch: () => void;
 }
 
+type ProductInput = TypeOf<typeof newProductSchema>;
+
 const ProductDialog = ({ open, setOpen, fetch }: RetainedSampleDialogProps) => {
-  const [values, setValues] = React.useState<Product>({
-    product_code: '',
-    product_name: '',
-    shelf_life: 0,
-  });
   const [alert, setAlert] = React.useState<AlertProps | null>(null);
 
+  const methods = useForm<ProductInput>({
+    resolver: zodResolver(newProductSchema),
+  });
+  const {
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = methods;
+
+  React.useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
+
   const handleOpenClose = () => {
+    reset();
     setOpen(!open);
   };
 
   const handleCloseAlert = () => setAlert(null);
 
-  const createProductHandler = () => {
+  const createProductHandler = (values: ProductInput) => {
     createProduct(values)
       .then(() => {
         handleOpenClose();
@@ -56,10 +74,6 @@ const ProductDialog = ({ open, setOpen, fetch }: RetainedSampleDialogProps) => {
       .catch((error: HTTPExceptionError) => {
         setAlert({ children: error.detail, severity: 'error' });
       });
-  };
-
-  const textChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   return (
@@ -95,50 +109,28 @@ const ProductDialog = ({ open, setOpen, fetch }: RetainedSampleDialogProps) => {
       </IconButton>
       <DialogContent dividers>
         <DialogContentText>Please fill the sample carefully!</DialogContentText>
-        <TextField
-          sx={{}}
-          autoFocus
-          required
-          fullWidth
-          margin="dense"
-          id="id"
-          name="product_code"
-          label="Product ID"
-          variant="outlined"
-          onChange={textChangeHandler}
-        />
-        <TextField
-          sx={{}}
-          autoFocus
-          required
-          fullWidth
-          margin="dense"
-          id="id"
-          name="product_name"
-          label="Prod Name"
-          variant="outlined"
-          onChange={textChangeHandler}
-        />
-        <TextField
-          sx={{}}
-          autoFocus
-          required
-          fullWidth
-          type="number"
-          margin="dense"
-          id="id"
-          name="product_name"
-          label="Shelf Life"
-          variant="outlined"
-          onChange={textChangeHandler}
-        />
-      </DialogContent>
+        <FormProvider {...methods}>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(createProductHandler)}
+          >
+            <FormInput name="product_code" required fullWidth label="Product Code" sx={{ mb: 2 }} />
+            <FormInput name="product_name" required fullWidth label="Product Name" sx={{ mb: 2 }} />
+            <FormInput
+              name="shelf_life"
+              required
+              fullWidth
+              type="number"
+              label="Shelf Life"
+              sx={{ mb: 2 }}
+            />
 
-      <DialogActions>
-        <Button autoFocus onClick={createProductHandler}>
-          Create
-        </Button>
-      </DialogActions>
+            <Button type="submit">Create</Button>
+          </Box>
+        </FormProvider>
+      </DialogContent>
     </BootstrapDialog>
   );
 };

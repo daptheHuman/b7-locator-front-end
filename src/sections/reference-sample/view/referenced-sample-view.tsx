@@ -5,12 +5,12 @@ import { GridRowId } from '@mui/x-data-grid';
 import { Box, Tab, Tabs, Alert, Snackbar, AlertProps } from '@mui/material/';
 
 import { TabPanel } from 'src/components/tab-panel/tab-panel';
+import SampleDialog from 'src/components/sample-dialog/sample-dialog';
 import SampleDataGrid from 'src/components/sample-data-grid/sample-data-grid';
 
 import { getAllRacksId } from '../api/racks';
 import { getAllProducts } from '../api/products';
-import { UpdateAndDeleteReferencedSample } from '../types';
-import RetainedSampleDialog from '../dialog/reference-sample-dialog';
+import { CreateReferencedSample, UpdateAndDeleteReferencedSample } from '../types';
 import DestroyDataGrid from '../../../components/destroy-data-grid/destroy-sample-data-grid';
 import {
   getDestroySamples,
@@ -18,6 +18,7 @@ import {
   getReferencedSamples,
   deleteReferencedSample,
   updateReferencedSample,
+  createReferencedSample,
 } from '../api/referenced-samples';
 
 // ----------------------------------------------------------------------
@@ -86,6 +87,16 @@ export default function ReferencedSamplePage() {
     setTabsValue(newValue);
   };
 
+  const handleCreateSample = (values: CreateReferencedSample) =>
+    createReferencedSample(values)
+      .then(() => {
+        setDialog(!dialog);
+        fetchDataSample();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
   React.useEffect(() => {
     fetchDataSample();
   }, [fetchDataSample]);
@@ -103,13 +114,6 @@ export default function ReferencedSamplePage() {
         </Snackbar>
       )}
 
-      <RetainedSampleDialog
-        open={dialog}
-        setOpen={setDialog}
-        racks={racks}
-        product={products}
-        fetch={fetchDataSample}
-      />
       <Box display="flex" sx={{ width: '100%', flexDirection: 'column' }}>
         <Tabs value={tabsValue} onChange={handleChangeTabs} aria-label="basic tabs example">
           <Tab label="Samples" />
@@ -117,6 +121,13 @@ export default function ReferencedSamplePage() {
         </Tabs>
       </Box>
       <TabPanel index={0} value={tabsValue}>
+        <SampleDialog
+          open={dialog}
+          setOpen={setDialog}
+          racks={racks}
+          product={products}
+          createSample={handleCreateSample}
+        />
         <SampleDataGrid
           fetchData={fetchDataSample}
           racks={racks}

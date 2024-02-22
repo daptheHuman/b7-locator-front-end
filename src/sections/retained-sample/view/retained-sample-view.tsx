@@ -5,19 +5,20 @@ import { GridRowId } from '@mui/x-data-grid';
 import { Box, Tab, Tabs, Alert, Snackbar, AlertProps } from '@mui/material/';
 
 import { TabPanel } from 'src/components/tab-panel/tab-panel';
+import SampleDialog from 'src/components/sample-dialog/sample-dialog';
 import SampleDataGrid from 'src/components/sample-data-grid/sample-data-grid';
 import DestroyDataGrid from 'src/components/destroy-data-grid/destroy-sample-data-grid';
 
 import { getAllRacksId } from '../api/racks';
 import { getAllProducts } from '../api/products';
-import { UpdateAndDeleteRetainedSample } from '../types';
-import RetainedSampleDialog from '../dialog/retained-sample-dialog';
+import { CreateRetainedSample, UpdateAndDeleteRetainedSample } from '../types';
 import {
   getDestroySamples,
   getRetainedSamples,
   createDestroyReport,
   deleteRetainedSample,
   updateRetainedSample,
+  createRetainedSample,
 } from '../api/retained-samples';
 
 // ----------------------------------------------------------------------
@@ -34,7 +35,7 @@ export default function RetainedSamplePage() {
   const [snackbar, setSnackbar] = React.useState<AlertProps | null>(null);
   const [tabsValue, setTabsValue] = React.useState<number>(0);
 
-  const fetchData = React.useCallback(() => {
+  const fetchDataSample = React.useCallback(() => {
     getRetainedSamples().then((_samples) => {
       setRetainedSamples(_samples);
     });
@@ -85,9 +86,19 @@ export default function RetainedSamplePage() {
     setTabsValue(newValue);
   };
 
+  const handleCreateSample = (values: CreateRetainedSample) =>
+    createRetainedSample(values)
+      .then(() => {
+        setDialog(!dialog);
+        fetchDataSample();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
   React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchDataSample();
+  }, [fetchDataSample]);
 
   return (
     <>
@@ -109,15 +120,15 @@ export default function RetainedSamplePage() {
         </Tabs>
       </Box>
       <TabPanel index={0} value={tabsValue}>
-        <RetainedSampleDialog
+        <SampleDialog
           open={dialog}
           setOpen={setDialog}
           racks={racks}
           product={products}
-          fetch={fetchData}
+          createSample={handleCreateSample}
         />
         <SampleDataGrid
-          fetchData={fetchData}
+          fetchData={fetchDataSample}
           racks={racks}
           samples={retainedSamples}
           processRowUpdate={handleProcessRowUpdate}

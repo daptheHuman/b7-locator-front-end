@@ -19,27 +19,27 @@ const getReferencedSamples = () =>
       throw error.response?.data;
     });
 
-const createReferencedSample = (retainedSample: CreateReferencedSample) =>
+const createReferencedSample = (referncedSample: CreateReferencedSample) =>
   axios
-    .post<CreateReferencedSample>('/retained/', retainedSample)
+    .post<CreateReferencedSample>('/reference/', referncedSample)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;
     });
 
-const deleteReferencedSample = (retainedSampleId: string | number) =>
+const deleteReferencedSample = (referencedSampleId: string | number) =>
   axios
-    .delete<UpdateAndDeleteReferencedSample>(`/retained/${retainedSampleId}`)
+    .delete<UpdateAndDeleteReferencedSample>(`/referenced/${referencedSampleId}`)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;
     });
 
-const updateReferencedSample = (updatedRetainedSample: UpdateAndDeleteReferencedSample) =>
+const updateReferencedSample = (updatedReferencedSample: UpdateAndDeleteReferencedSample) =>
   axios
     .put<UpdateAndDeleteReferencedSample>(
-      `/retained/${updatedRetainedSample.id}`,
-      updatedRetainedSample
+      `/reference/${updatedReferencedSample.id}`,
+      updatedReferencedSample
     )
     .then((response) => response.data)
     .catch((error: AxiosError) => {

@@ -9,10 +9,10 @@ import {
 } from '@mui/x-data-grid';
 
 interface ProductToolbarProps {
-  handleNewSampleClick: () => void;
+  handleNew: () => void;
 }
 
-const ProductToolbar = ({ handleNewSampleClick }: ProductToolbarProps) => (
+const ProductToolbar = ({ handleNew }: ProductToolbarProps) => (
   <GridToolbarContainer
     sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
   >
@@ -25,7 +25,7 @@ const ProductToolbar = ({ handleNewSampleClick }: ProductToolbarProps) => (
 
     <Box>
       <GridToolbarQuickFilter />
-      <Button sx={{ marginX: 5 }} variant="contained" onClick={handleNewSampleClick}>
+      <Button sx={{ marginX: 5 }} variant="contained" onClick={handleNew}>
         New Product
       </Button>
     </Box>
