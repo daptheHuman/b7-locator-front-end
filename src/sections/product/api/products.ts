@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 
-import { ProductRow } from '../types';
 import axios from '../../../config/axios';
 
 const createProduct = (newProduct: Product) =>
@@ -19,9 +18,9 @@ const getProducts = () =>
       throw error.response?.data;
     });
 
-const updateProduct = (updatedProduct: ProductRow) =>
+const updateProduct = (updatedProduct: Product) =>
   axios
-    .post<Product>(`/products/${updatedProduct.product_code}`, updatedProduct)
+    .put<Product>(`/products/${updatedProduct.product_code}`, updatedProduct)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;
