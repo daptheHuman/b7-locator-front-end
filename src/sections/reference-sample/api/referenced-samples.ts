@@ -29,7 +29,7 @@ const createReferencedSample = (referncedSample: CreateReferencedSample) =>
 
 const deleteReferencedSample = (referencedSampleId: string | number) =>
   axios
-    .delete<UpdateAndDeleteReferencedSample>(`/referenced/${referencedSampleId}`)
+    .delete<UpdateAndDeleteReferencedSample>(`/reference/${referencedSampleId}`)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;
