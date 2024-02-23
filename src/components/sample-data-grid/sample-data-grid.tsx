@@ -216,7 +216,6 @@ const ReferencedSampleDataGrid = ({
       <DataGrid
         rows={samples}
         columns={columns}
-        checkboxSelection
         keepNonExistentRowsSelected
         editMode="row"
         rowModesModel={rowModesModel}

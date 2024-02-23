@@ -59,7 +59,6 @@ const SampleDialog = ({
     handleSubmit,
     formState: { isSubmitSuccessful, errors },
   } = methods;
-
   React.useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
@@ -75,10 +74,7 @@ const SampleDialog = ({
     createSample(values);
   };
 
-  const dateChangeHandler = (
-    name: 'manufacturing_date' | 'expiration_date' | 'destroy_date',
-    value: Moment | null
-  ) => {
+  const dateChangeHandler = (name: 'manufacturing_date', value: Moment | null) => {
     if (value) {
       return setValue(name, value.format('YYYY-MM-DD'));
     }
@@ -133,34 +129,6 @@ const SampleDialog = ({
                 textField: {
                   error: !!errors.manufacturing_date,
                   helperText: <>{errors.manufacturing_date?.message || ''}</>,
-                },
-              }}
-            />
-            <DatePicker
-              onChange={(value: Moment | null) => dateChangeHandler('expiration_date', value)}
-              sx={{ m: 1, width: '5' }}
-              autoFocus
-              name="expiration_date"
-              label="Exp. Date"
-              views={['month', 'year']}
-              slotProps={{
-                textField: {
-                  error: !!errors.expiration_date,
-                  helperText: <>{errors.expiration_date?.message || ''}</>,
-                },
-              }}
-            />
-            <DatePicker
-              onChange={(value: Moment | null) => dateChangeHandler('destroy_date', value)}
-              sx={{ m: 1, width: '5' }}
-              autoFocus
-              name="destroy_date"
-              label="Des. Date"
-              views={['month', 'year']}
-              slotProps={{
-                textField: {
-                  error: !!errors.destroy_date,
-                  helperText: <>{errors.destroy_date?.message || ''}</>,
                 },
               }}
             />

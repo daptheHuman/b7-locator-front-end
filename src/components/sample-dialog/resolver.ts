@@ -7,6 +7,4 @@ export const newSampleSchema = object({
     .min(1, 'Please enter the batch number')
     .max(5, 'Batch number must less than 5 characters'),
   manufacturing_date: string().min(1, 'Please enter the date'),
-  expiration_date: string().min(1, 'Please enter the date'),
-  destroy_date: string().min(1, 'Please enter the date'),
 });
