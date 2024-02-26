@@ -6,16 +6,28 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { DataGrid, GridColDef, GridValueSetterParams } from '@mui/x-data-grid';
 
 import DestroyToolbar from './destroy-toolbar';
-import { dateSetter, dateFormatter } from '../../sections/reference-sample/utils';
+import { DestroyPackageAndWeight } from '../types';
+import { convertToDestroyPackageAndWeight } from '../utils';
+import DestroyDialog from '../destroy-dialog/destroy-dialog';
+import { dateSetter, dateFormatter } from '../../../sections/reference-sample/utils';
 
 interface DestroyDataGridProps {
-  samples: RetainedSample[] | ReferencedSample[];
+  samples: Sample[];
   fetchData: (date: Dayjs) => void;
-  handleDestroy: (date: Dayjs) => void;
+  handleDestroy: (date: Dayjs, destroy_sample: DestroyPackageAndWeight[]) => void;
 }
 
 const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridProps) => {
   const [selectedDate, setSelectedDate] = React.useState<Dayjs>(dayjs(Date.now()));
+  const [destroySample, setDestroySample] = React.useState<DestroyPackageAndWeight[]>(
+    convertToDestroyPackageAndWeight(samples)
+  );
+
+  const [packageWeightDialog, setPackageWeightDialog] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setDestroySample(convertToDestroyPackageAndWeight(samples));
+  }, [samples]);
 
   React.useEffect(() => {
     fetchData(selectedDate);
@@ -26,7 +38,7 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
   };
 
   const handleDestroyReports = () => {
-    handleDestroy(selectedDate);
+    handleDestroy(selectedDate, destroySample);
   };
 
   const columns = React.useMemo(() => {
@@ -92,6 +104,13 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
 
   return (
     <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+      <DestroyDialog
+        open={packageWeightDialog}
+        setOpen={setPackageWeightDialog}
+        samplesDestroy={destroySample}
+        setSamplesDestroy={setDestroySample}
+        handleDestroy={handleDestroyReports}
+      />
       <Box
         sx={{
           height: 100,
@@ -120,6 +139,7 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
           toolbar: {
             samples,
             handleDestroy: handleDestroyReports,
+            setPackageWeightDialog,
           },
         }}
       />

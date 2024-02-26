@@ -57,11 +57,11 @@ const getDestroySamples = (date: Dayjs) => {
     });
 };
 
-const createDestroyReport = (date: Dayjs) => {
+const createDestroyReport = (date: Dayjs, packageWeight: DestroyPackageAndWeight[]) => {
   const month = date.month() + 1;
   const year = date.year();
   axios
-    .get(`/reference/generate-destroy-report?month=${month}&year=${year}`, {
+    .post(`/reference/generate-destroy-report?month=${month}&year=${year}`, packageWeight, {
       responseType: 'blob',
     })
     .then((blob) => {

@@ -9,18 +9,21 @@ import {
 
 interface DestroyToolbarProps {
   samples: ReferencedSample[] | RetainedSample[];
-  handleDestroy: () => void;
+  setPackageWeightDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const DestroyToolbar = ({ samples, handleDestroy }: DestroyToolbarProps) => {
+const DestroyToolbar = ({ samples, setPackageWeightDialog }: DestroyToolbarProps) => {
   const hasSample = samples.length > 0;
 
+  const buttonHandler = () => {
+    setPackageWeightDialog(true);
+  };
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
       <GridToolbarExport />
-      <Button variant="contained" disabled={!hasSample} onClick={handleDestroy}>
+      <Button variant="contained" disabled={!hasSample} onClick={buttonHandler}>
         Destroy
       </Button>
     </GridToolbarContainer>
