@@ -38,7 +38,7 @@ interface RetainedSampleDialogProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   racks: Rack[];
   product: Product[];
-  createSample: (retainedSample: CreateSample) => void;
+  createSample: (sample: CreateSample) => void;
 }
 
 const SampleDialog = ({

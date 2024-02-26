@@ -7,7 +7,7 @@ import { Box, Tab, Tabs, Alert, Snackbar, AlertProps } from '@mui/material/';
 import { TabPanel } from 'src/components/tab-panel/tab-panel';
 import SampleDialog from 'src/components/sample-dialog/sample-dialog';
 import SampleDataGrid from 'src/components/sample-data-grid/sample-data-grid';
-import DestroyDataGrid from 'src/components/destroy-data-grid/destroy-sample-data-grid';
+import DestroyDataGrid from 'src/components/destroy/destroy-data-grid/destroy-sample-data-grid';
 
 import { getAllRacksId } from '../api/racks';
 import { getAllProducts } from '../api/products';
@@ -55,8 +55,8 @@ export default function RetainedSamplePage() {
     });
   }, []);
 
-  const handleDestroy = (date: Dayjs) => {
-    createDestroyReport(date);
+  const handleDestroy = (date: Dayjs, destroySample: DestroyPackageAndWeight[]) => {
+    createDestroyReport(date, destroySample);
   };
 
   const handleProcessRowUpdate = React.useCallback(
@@ -65,8 +65,8 @@ export default function RetainedSamplePage() {
     []
   );
 
-  const handleProcessRowUpdateError = React.useCallback((error: Error) => {
-    setSnackbar({ children: error.message, severity: 'error' });
+  const handleProcessRowUpdateError = React.useCallback((error: HTTPExceptionError) => {
+    setSnackbar({ children: error.detail, severity: 'error' });
   }, []);
 
   const handleProcessRowDelete = (id: GridRowId) =>

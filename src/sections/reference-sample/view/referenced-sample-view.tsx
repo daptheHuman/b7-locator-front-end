@@ -11,7 +11,7 @@ import SampleDataGrid from 'src/components/sample-data-grid/sample-data-grid';
 import { getAllRacksId } from '../api/racks';
 import { getAllProducts } from '../api/products';
 import { CreateReferencedSample, UpdateAndDeleteReferencedSample } from '../types';
-import DestroyDataGrid from '../../../components/destroy-data-grid/destroy-sample-data-grid';
+import DestroyDataGrid from '../../../components/destroy/destroy-data-grid/destroy-sample-data-grid';
 import {
   getDestroySamples,
   createDestroyReport,
@@ -56,8 +56,8 @@ export default function ReferencedSamplePage() {
     });
   }, []);
 
-  const handleDestroy = (date: Dayjs) => {
-    createDestroyReport(date);
+  const handleDestroy = (date: Dayjs, destroySample: DestroyPackageAndWeight[]) => {
+    createDestroyReport(date, destroySample);
   };
 
   const handleProcessRowUpdate = React.useCallback(
@@ -66,8 +66,8 @@ export default function ReferencedSamplePage() {
     []
   );
 
-  const handleProcessRowUpdateError = React.useCallback((error: Error) => {
-    setSnackbar({ children: error.message, severity: 'error' });
+  const handleProcessRowUpdateError = React.useCallback((error: HTTPExceptionError) => {
+    setSnackbar({ children: error.detail, severity: 'error' });
   }, []);
 
   const handleProcessRowDelete = (id: GridRowId) =>

@@ -17,8 +17,8 @@ import {
 } from '@mui/x-data-grid';
 
 import SampleToolbar from './sample-toolbar';
+import { UpdateAndDeleteSample } from './types';
 import { dateSetter, dateFormatter } from './utils';
-import { Sample, UpdateAndDeleteSample } from './types';
 import { InputCellTooltip } from '../cell-tooltip/input-cell-tooltip';
 
 interface ReferencedSampleDataGridProps {
@@ -26,7 +26,7 @@ interface ReferencedSampleDataGridProps {
   racks: Rack[];
   fetchData: () => void;
   processRowUpdate: (updatedRow: UpdateAndDeleteSample) => Promise<UpdateAndDeleteSample>;
-  processRowUpdateError: (error: Error) => void;
+  processRowUpdateError: (error: HTTPExceptionError) => void;
   handleNewSample: () => void;
   handleDelete: (id: GridRowId) => void;
 }
