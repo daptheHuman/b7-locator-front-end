@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -6,10 +6,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import { Button, Typography } from '@mui/material';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { bgBlur } from 'src/theme/css';
+import { UserContext } from 'src/authentication/user-context';
 
 import Iconify from 'src/components/iconify';
 
@@ -19,8 +21,12 @@ import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+type HeaderProps = {
+  onOpenNav: () => void;
+};
+export default function Header({ onOpenNav }: HeaderProps) {
   const theme = useTheme();
+  const { user, logout } = useContext(UserContext);
 
   const lgUp = useResponsive('up', 'lg');
 
@@ -37,6 +43,14 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
+        {user ? (
+          <>
+            <Typography color="black">{user.username}</Typography>
+            <Button onClick={logout}>Logout</Button>
+          </>
+        ) : (
+          <Button>Login</Button>
+        )}
         <NotificationsPopover />
       </Stack>
     </>
@@ -71,7 +85,3 @@ export default function Header({ onOpenNav }) {
     </AppBar>
   );
 }
-
-Header.propTypes = {
-  onOpenNav: PropTypes.func,
-};

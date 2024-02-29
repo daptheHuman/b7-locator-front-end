@@ -7,6 +7,7 @@ import Router from 'src/routes/sections';
 import ThemeProvider from 'src/theme';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import UserProvider from './authentication/user-provider';
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +17,9 @@ export default function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider>
-        <Router />
+        <UserProvider>
+          <Router />
+        </UserProvider>
       </ThemeProvider>
     </LocalizationProvider>
   );

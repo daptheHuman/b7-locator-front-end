@@ -12,6 +12,8 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
+import { UserContext } from 'src/authentication/user-context';
+
 import { RackRow } from 'src/sections/rack/types';
 import { ProductRow } from 'src/sections/product/types';
 
@@ -39,6 +41,8 @@ const ProductRackDataGrid = ({
   Toolbar,
 }: ProductRackDataGridProps) => {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+  const { user } = React.useContext(UserContext);
+  const isAdmin = user ? user.is_admin : false;
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -74,63 +78,65 @@ const ProductRackDataGrid = ({
       });
     };
 
-    const FIELDS: GridColDef[] = [
+    const FIELDS = [
       ...gridColumn,
-      {
-        field: 'actions',
-        type: 'actions',
-        headerName: 'Actions',
-        width: 100,
-        cellClassName: 'actions',
-        getActions: ({ id }: { id: GridRowId }) => {
-          const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+      isAdmin
+        ? {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }: { id: GridRowId }) => {
+              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-          if (isInEditMode) {
-            return [
-              <GridActionsCellItem
-                icon={<FaFloppyDisk />}
-                label="Save"
-                sx={{
-                  color: 'primary.main',
-                }}
-                onClick={handleSaveClick(id)}
-              />,
-              <GridActionsCellItem
-                icon={<FaX />}
-                label="Cancel"
-                className="textPrimary"
-                onClick={handleCancelClick(id)}
-                color="inherit"
-              />,
-            ];
+              if (isInEditMode) {
+                return [
+                  <GridActionsCellItem
+                    icon={<FaFloppyDisk />}
+                    label="Save"
+                    sx={{
+                      color: 'primary.main',
+                    }}
+                    onClick={handleSaveClick(id)}
+                  />,
+                  <GridActionsCellItem
+                    icon={<FaX />}
+                    label="Cancel"
+                    className="textPrimary"
+                    onClick={handleCancelClick(id)}
+                    color="inherit"
+                  />,
+                ];
+              }
+              return [
+                <GridActionsCellItem
+                  icon={<FaPencil />}
+                  label="Edit"
+                  sx={{
+                    color: 'primary.main',
+                  }}
+                  onClick={handleEditClick(id)}
+                />,
+                <GridActionsCellItem
+                  icon={<FaTrash />}
+                  label="Delete"
+                  className="textPrimary"
+                  onClick={handleDeleteClick(id)}
+                  color="inherit"
+                />,
+              ];
+            },
           }
-          return [
-            <GridActionsCellItem
-              icon={<FaPencil />}
-              label="Edit"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleEditClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<FaTrash />}
-              label="Delete"
-              className="textPrimary"
-              onClick={handleDeleteClick(id)}
-              color="inherit"
-            />,
-          ];
-        },
-      },
-    ];
+        : undefined,
+    ].filter(Boolean) as GridColDef[];
 
     return FIELDS.map((col) => ({
       headerName: col.field,
       ...col,
       flex: 1,
     }));
-  }, [gridColumn, processRowDelete, rowModesModel]);
+  }, [gridColumn, isAdmin, processRowDelete, rowModesModel]);
 
   return (
     <DataGrid

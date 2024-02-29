@@ -58,4 +58,19 @@ declare global {
     status_code: number;
     detail: string;
   }
+
+  interface AuthInput {
+    username: string;
+    password: string;
+  }
+
+  interface User {
+    username: string;
+    is_admin: boolean;
+  }
+
+  interface Token {
+    access_token: string;
+    token_type: string;
+  }
 }

@@ -5,12 +5,18 @@ import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { useTheme } from '@mui/material/styles';
+import { Button, SxProps } from '@mui/material';
 
 import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
-const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
+type LogoProps = {
+  disabledLink: boolean;
+  href: string;
+  sx: SxProps;
+};
+const Logo = forwardRef(({ disabledLink = false, href, sx, ...other }: LogoProps, ref) => {
   const theme = useTheme();
 
   // const PRIMARY_LIGHT = theme.palette.primary.light;
@@ -82,15 +88,10 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link component={RouterLink} href="/" sx={{ display: 'contents' }}>
+    <Button component={RouterLink} href={href} sx={{ display: 'contents' }}>
       {logo}
-    </Link>
+    </Button>
   );
 });
-
-Logo.propTypes = {
-  disabledLink: PropTypes.bool,
-  sx: PropTypes.object,
-};
 
 export default Logo;

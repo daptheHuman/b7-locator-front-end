@@ -3,8 +3,10 @@ import * as React from 'react';
 import { GridRowId } from '@mui/x-data-grid';
 import { Box, Alert, Snackbar, AlertProps } from '@mui/material/';
 
+import { UserContext } from 'src/authentication/user-context';
+
 import { ProductRow } from '../types';
-import PRODUCT_COLUMNS from './product-col';
+import productCol from './product-col';
 import ProductToolbar from '../product-toolbar';
 import ProductDialog from '../dialog/product-dialog';
 import { getProducts, deleteProduct, updateProduct } from '../api/products';
@@ -17,6 +19,9 @@ export default function ProductPage() {
 
   const [dialog, setDialog] = React.useState<boolean>(false);
   const [snackbar, setSnackbar] = React.useState<AlertProps | null>(null);
+
+  const { user } = React.useContext(UserContext);
+  const isAdmin = user ? user.is_admin : false;
 
   const fetchData = React.useCallback(() => {
     getProducts().then((_products) => {
@@ -72,7 +77,7 @@ export default function ProductPage() {
         <ProductDialog open={dialog} setOpen={setDialog} fetch={fetchData} />
         <ProductRackDataGrid
           row={products}
-          gridColumn={PRODUCT_COLUMNS}
+          gridColumn={productCol(isAdmin)}
           fetchData={fetchData}
           processRowUpdate={handleProcessRowUpdate}
           processRowUpdateError={handleProcessRowUpdateError}

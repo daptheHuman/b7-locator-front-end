@@ -1,6 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid';
 
-const PRODUCT_COLUMNS: GridColDef[] = [
+const productCol = (isAdmin: boolean): GridColDef[] => [
   {
     headerName: 'Prod. Code',
     field: 'product_code',
@@ -9,13 +9,13 @@ const PRODUCT_COLUMNS: GridColDef[] = [
   {
     headerName: 'Prod. Name',
     field: 'product_name',
-    editable: true,
+    editable: isAdmin,
   },
   {
     headerName: 'Shelf Life',
     field: 'shelf_life',
-    editable: true,
+    editable: isAdmin,
   },
 ];
 
-export default PRODUCT_COLUMNS;
+export default productCol;

@@ -1,5 +1,3 @@
-import { DestroyPackageAndWeight } from './types';
-
 export function convertToDestroyPackageAndWeight(samples: Sample[]): DestroyPackageAndWeight[] {
   // Initialize an object to store unique product codes
   const uniqueProductCodes: { [key: string]: boolean } = {};

@@ -16,6 +16,8 @@ import {
   GridPreProcessEditCellProps,
 } from '@mui/x-data-grid';
 
+import { UserContext } from 'src/authentication/user-context';
+
 import SampleToolbar from './sample-toolbar';
 import { UpdateAndDeleteSample } from './types';
 import { dateSetter, dateFormatter } from './utils';
@@ -41,6 +43,8 @@ const ReferencedSampleDataGrid = ({
   handleDelete,
 }: ReferencedSampleDataGridProps) => {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+  const { user } = React.useContext(UserContext);
+  const isAdmin = user ? user.is_admin : false;
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -93,7 +97,7 @@ const ReferencedSampleDataGrid = ({
       {
         headerName: 'Rack',
         field: 'rack_id',
-        editable: true,
+        editable: isAdmin,
         width: 70,
         type: 'singleSelect',
         valueOptions: racks.map((rack) => rack.rack_id),
@@ -114,7 +118,7 @@ const ReferencedSampleDataGrid = ({
       {
         headerName: 'Batch Num.',
         field: 'batch_number',
-        editable: true,
+        editable: isAdmin,
         preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
           const hasError = params.props.value.length > 5;
           return { ...params.props, error: hasError, message: 'No Exceed 5 char' };
@@ -124,7 +128,7 @@ const ReferencedSampleDataGrid = ({
       {
         headerName: 'Man. Date',
         field: 'manufacturing_date',
-        editable: true,
+        editable: isAdmin,
         type: 'date',
         valueSetter: (params: GridValueSetterParams) => {
           const date = dateSetter(params.value!);
@@ -135,7 +139,7 @@ const ReferencedSampleDataGrid = ({
       {
         headerName: 'Exp. Date',
         field: 'expiration_date',
-        editable: true,
+        editable: isAdmin,
         type: 'date',
         valueParser: (value) => value && dateSetter(value),
         valueSetter: (params: GridValueSetterParams) => {
@@ -147,7 +151,7 @@ const ReferencedSampleDataGrid = ({
       {
         headerName: 'Des. Date',
         field: 'destroy_date',
-        editable: true,
+        editable: isAdmin,
         type: 'date',
         valueSetter: (params: GridValueSetterParams) => {
           const date = dateSetter(params.value!);
@@ -204,12 +208,18 @@ const ReferencedSampleDataGrid = ({
       },
     ];
 
-    return FIELDS.map((col) => ({
-      headerName: col.field,
-      ...col,
-      // flex: 1,
-    }));
-  }, [handleDelete, racks, rowModesModel]);
+    return FIELDS.map((col) => {
+      if (!isAdmin && col.field === 'actions') {
+        return null; // Skip this column
+      }
+
+      return {
+        headerName: col.field,
+        ...col,
+        // flex: 1,
+      };
+    }).filter((col) => col !== null) as GridColDef[];
+  }, [handleDelete, isAdmin, racks, rowModesModel]);
 
   return (
     <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>

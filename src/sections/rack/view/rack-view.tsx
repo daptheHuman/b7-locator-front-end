@@ -3,10 +3,12 @@ import React from 'react';
 import { GridRowId } from '@mui/x-data-grid';
 import { Box, Alert, Snackbar, AlertProps } from '@mui/material/';
 
+import { UserContext } from 'src/authentication/user-context';
+
 import ProductRackDataGrid from 'src/components/product-rack-datagrid/product-rack-data-grid';
 
+import rackCol from './rack-col';
 import { RackRow } from '../types';
-import RACK_COLUMNS from './rack-col';
 import RackToolbar from '../rack-toolbar';
 import RackDialog from '../dialog/rack-dialog';
 import { getRacks, deleteRack, updateRack } from '../api/racks';
@@ -18,6 +20,9 @@ export default function RackPage() {
 
   const [dialog, setDialog] = React.useState<boolean>(false);
   const [snackbar, setSnackbar] = React.useState<AlertProps | null>(null);
+
+  const { user } = React.useContext(UserContext);
+  const isAdmin = user ? user.is_admin : false;
 
   const fetchData = React.useCallback(() => {
     getRacks().then((_racks) => {
@@ -72,7 +77,7 @@ export default function RackPage() {
         <RackDialog open={dialog} setOpen={setDialog} fetch={fetchData} />
         <ProductRackDataGrid
           row={racks}
-          gridColumn={RACK_COLUMNS}
+          gridColumn={rackCol(isAdmin)}
           fetchData={fetchData}
           processRowUpdate={handleProcessRowUpdate}
           processRowUpdateError={handleProcessRowUpdateError}

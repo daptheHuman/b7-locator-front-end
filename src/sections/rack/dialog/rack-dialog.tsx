@@ -119,6 +119,7 @@ const RackDialog = ({ open, setOpen, fetch }: RetainedSampleDialogProps) => {
           >
             <FormInput name="rack_id" required fullWidth label="Rack ID" sx={{ mb: 2 }} />
             <FormInput name="location" fullWidth label="Location" sx={{ mb: 2 }} />
+            <FormInput name="max_stored" required fullWidth label="Maximum Store" sx={{ mb: 2 }} />
 
             <Button type="submit">Create</Button>
           </Box>

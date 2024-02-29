@@ -1,12 +1,17 @@
 import { GridColDef } from '@mui/x-data-grid';
 
-const RACK_COLUMNS: GridColDef[] = [
+const rackCol = (isAdmin: boolean): GridColDef[] => [
   { field: 'id', editable: false, width: 10 },
   {
     headerName: 'Location',
     field: 'location',
-    editable: true,
+    editable: isAdmin,
+  },
+  {
+    headerName: 'Maximum Storage',
+    field: 'max_stored',
+    editable: isAdmin,
   },
 ];
 
-export default RACK_COLUMNS;
+export default rackCol;

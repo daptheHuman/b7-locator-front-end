@@ -1,26 +1,32 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useContext } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
+import { UserContext } from 'src/authentication/user-context';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const RacksPage = lazy(() => import('src/pages/racks'));
 export const RetainedSamplePage = lazy(() => import('src/pages/retained-sample'));
 export const ReferencedSamplePage = lazy(() => import('src/pages/referenced-sample'));
+export const LoginPage = lazy(() => import('src/pages/login'));
+export const RegisterPage = lazy(() => import('src/pages/register'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const { user } = useContext(UserContext);
   const routes = useRoutes([
     {
-      element: (
+      element: user ? (
         <DashboardLayout>
           <Suspense>
             <Outlet />
           </Suspense>
         </DashboardLayout>
+      ) : (
+        <Navigate to="/login" />
       ),
       children: [
         { element: <IndexPage />, index: true },
@@ -30,6 +36,8 @@ export default function Router() {
         { path: 'racks', element: <RacksPage /> },
       ],
     },
+    { path: 'login', element: <LoginPage /> },
+    { path: 'register', element: <RegisterPage /> },
     {
       path: '404',
       element: <Page404 />,
