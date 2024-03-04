@@ -1,7 +1,8 @@
 import { Dayjs } from 'dayjs';
 import { AxiosError } from 'axios';
 
-import axios from '../../../config/axios';
+import axios from 'src/config/axios';
+
 import { CreateReferencedSample, UpdateAndDeleteReferencedSample } from '../types';
 
 const getReferencedSamples = () =>

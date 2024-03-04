@@ -1,9 +1,8 @@
 import { Dayjs } from 'dayjs';
 import { AxiosError } from 'axios';
 
-import { DestroyPackageAndWeight } from 'src/components/destroy/types';
+import axios from 'src/config/axios';
 
-import axios from '../../../config/axios';
 import { CreateRetainedSample, UpdateAndDeleteRetainedSample } from '../types';
 
 const getRetainedSamples = () =>

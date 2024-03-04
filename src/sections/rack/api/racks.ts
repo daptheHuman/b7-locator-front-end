@@ -1,7 +1,8 @@
 import { AxiosError } from 'axios';
 
+import axios from 'src/config/axios';
+
 import { RackRow } from '../types';
-import axios from '../../../config/axios';
 
 const createRack = (newRack: Rack) =>
   axios

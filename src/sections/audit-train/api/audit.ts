@@ -1,6 +1,4 @@
-import { AxiosError } from 'axios';
-
-import axios from '../../../config/axios';
+import axios, { AxiosError } from 'axios';
 
 const getAllAudit = (query: string | undefined, page: number, pageSize: number) =>
   axios

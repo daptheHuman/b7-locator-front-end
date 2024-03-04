@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-import axios from '../../../config/axios';
+import axios from 'src/config/axios';
 
 const createProduct = (newProduct: Product) =>
   axios

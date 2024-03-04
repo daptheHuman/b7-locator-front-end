@@ -1,4 +1,5 @@
-import axios from '../../../config/axios';
+import axios from 'src/config/axios';
+
 import { SampleId, DestroyReport } from '../types';
 
 const destroyRetainedSample = (sampleIds: SampleId[]) =>
