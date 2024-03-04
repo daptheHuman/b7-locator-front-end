@@ -1,7 +1,7 @@
 import React from 'react';
 
 type UserContent = {
-  user: User | null;
+  user: User;
   register: (input: AuthInput) => Promise<void>;
   login: (input: AuthInput) => Promise<void>;
   logout: () => void;

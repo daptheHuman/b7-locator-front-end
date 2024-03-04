@@ -17,7 +17,7 @@ import Iconify from 'src/components/iconify';
 
 import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
-import NotificationsPopover from './common/notifications-popover';
+// import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
@@ -43,15 +43,11 @@ export default function Header({ onOpenNav }: HeaderProps) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        {user ? (
-          <>
-            <Typography color="black">{user.username}</Typography>
-            <Button onClick={logout}>Logout</Button>
-          </>
-        ) : (
-          <Button>Login</Button>
-        )}
-        <NotificationsPopover />
+        <>
+          <Typography color="black">{user.username}</Typography>
+          <Button onClick={logout}>Logout</Button>
+        </>
+        {/* <NotificationsPopover /> */}
       </Stack>
     </>
   );

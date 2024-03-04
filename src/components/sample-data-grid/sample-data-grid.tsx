@@ -224,7 +224,7 @@ const ReferencedSampleDataGrid = ({
   return (
     <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
       <DataGrid
-        rows={samples}
+          rows={samples}
         columns={columns}
         keepNonExistentRowsSelected
         editMode="row"

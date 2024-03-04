@@ -11,6 +11,8 @@ export const RetainedSamplePage = lazy(() => import('src/pages/retained-sample')
 export const ReferencedSamplePage = lazy(() => import('src/pages/referenced-sample'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
+export const AuditTrailPage = lazy(() => import('src/pages/audit-trail'));
+export const AdminOnlyPage = lazy(() => import('src/pages/admin-only'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -34,6 +36,7 @@ export default function Router() {
         { path: 'retained-samples', element: <RetainedSamplePage /> },
         { path: 'referenced-samples', element: <ReferencedSamplePage /> },
         { path: 'racks', element: <RacksPage /> },
+        { path: 'audit-trail', element: user?.is_admin ? <AuditTrailPage /> : <AdminOnlyPage /> },
       ],
     },
     { path: 'login', element: <LoginPage /> },

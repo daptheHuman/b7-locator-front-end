@@ -73,4 +73,8 @@ declare global {
     access_token: string;
     token_type: string;
   }
+
+  interface Audit {
+    
+  }
 }
