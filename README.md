@@ -44,7 +44,7 @@ To configure environment-specific variables, you can use a `.env` file in the ro
 
 ### `.env` Configuration
 
-- `REACT_APP_BACKEND_URL`: The URL of the backend API server.
+- `VITE_APP_BACKEND_URL`: The URL of the backend API server.
 
 ### Creating or Updating the `.env` File
 
@@ -56,17 +56,13 @@ To configure environment-specific variables, you can use a `.env` file in the ro
 
 2. Open the `.env` file in a text editor.
 
-3. Add or update the `REACT_APP_BACKEND_URL` variable with the appropriate value:
-
-   ```plaintext
-   REACT_APP_BACKEND_URL=http://localhost:8000
-   ```
+3. Add or update the variable with the appropriate value
 
 4. Save the changes to the `.env` file.
 
 ## Running the Application
 
-After setting up the `.env` file with the desired `REACT_APP_BACKEND_URL`, you can run the development server as usual:
+After setting up the `.env` file with the desired variable, you can run the development server as usual:
 
 ```bash
 npm run dev
