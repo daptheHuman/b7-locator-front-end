@@ -73,7 +73,13 @@ export default function ProductPage() {
         </Snackbar>
       )}
 
-      <Box display="flex" sx={{ height: 400, width: '100%', flexDirection: 'column' }}>
+      <Box
+        display="flex"
+        sx={{
+          flexDirection: 'column',
+          height: '75vh',
+        }}
+      >
         <ProductDialog open={dialog} setOpen={setDialog} fetch={fetchData} />
         <ProductRackDataGrid
           row={products}

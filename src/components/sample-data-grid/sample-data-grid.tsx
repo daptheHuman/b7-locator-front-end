@@ -114,6 +114,7 @@ const ReferencedSampleDataGrid = ({
         field: 'product_name',
         editable: false,
         width: 250,
+        flex: 1,
       },
       {
         headerName: 'Batch Num.',
@@ -216,15 +217,23 @@ const ReferencedSampleDataGrid = ({
       return {
         headerName: col.field,
         ...col,
-        // flex: 1,
+        headerAlign: 'center',
+        headerClassName: 'font-header',
       };
     }).filter((col) => col !== null) as GridColDef[];
   }, [handleDelete, isAdmin, racks, rowModesModel]);
 
   return (
-    <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+    <Box
+      display="flex"
+      sx={{
+        flexDirection: 'column',
+        height: '75vh',
+      }}
+    >
       <DataGrid
-          rows={samples}
+        sx={{}}
+        rows={samples}
         columns={columns}
         keepNonExistentRowsSelected
         editMode="row"

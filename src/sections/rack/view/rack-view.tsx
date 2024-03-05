@@ -73,7 +73,13 @@ export default function RackPage() {
           <Alert {...snackbar} onClose={handleCloseSnackbar} />
         </Snackbar>
       )}
-      <Box display="flex" sx={{ height: 400, width: '100%', flexDirection: 'column' }}>
+      <Box
+        display="flex"
+        sx={{
+          flexDirection: 'column',
+          height: '75vh',
+        }}
+      >
         <RackDialog open={dialog} setOpen={setDialog} fetch={fetchData} />
         <ProductRackDataGrid
           row={racks}

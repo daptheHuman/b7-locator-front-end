@@ -16,6 +16,7 @@ import { UserContext } from 'src/authentication/user-context';
 
 import { RackRow } from 'src/sections/rack/types';
 import { ProductRow } from 'src/sections/product/types';
+import { Box } from '@mui/material';
 
 interface ProductRackDataGridProps {
   row: Product[] | Rack[];
@@ -85,8 +86,9 @@ const ProductRackDataGrid = ({
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 100,
             cellClassName: 'actions',
+            headerAlign: 'center',
+            headerClassName: 'font-header',
             getActions: ({ id }: { id: GridRowId }) => {
               const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -140,6 +142,9 @@ const ProductRackDataGrid = ({
 
   return (
     <DataGrid
+      sx={{
+        height: '70vh',
+      }}
       rows={row}
       columns={columns}
       keepNonExistentRowsSelected
