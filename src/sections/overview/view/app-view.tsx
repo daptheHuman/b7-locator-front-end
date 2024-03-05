@@ -42,7 +42,7 @@ export default function AppView() {
           <AppWidgetSummary
             sx={{}}
             icon={<FaBoxOpen size={50} />}
-            title="Products stored"
+            title="Products"
             total={productCount}
           />
         </Grid>
