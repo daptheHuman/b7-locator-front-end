@@ -38,13 +38,41 @@
    npm install
    ```
 
-4. Start the development server:
+## Environment Variables
+
+To configure environment-specific variables, you can use a `.env` file in the root directory of the project.
+
+### `.env` Configuration
+
+- `REACT_APP_BACKEND_URL`: The URL of the backend API server.
+
+### Creating or Updating the `.env` File
+
+1. If you haven't already, create a copy of the provided `.env.sample` file:
 
    ```bash
-   npm run dev
+   cp .env.sample .env
    ```
 
-5. Open your browser and visit http://localhost:3000 to view the application.
+2. Open the `.env` file in a text editor.
+
+3. Add or update the `REACT_APP_BACKEND_URL` variable with the appropriate value:
+
+   ```plaintext
+   REACT_APP_BACKEND_URL=http://localhost:8000
+   ```
+
+4. Save the changes to the `.env` file.
+
+## Running the Application
+
+After setting up the `.env` file with the desired `REACT_APP_BACKEND_URL`, you can run the development server as usual:
+
+```bash
+npm run dev
+```
+
+This will start the development server with the specified backend URL. Any API requests made from the frontend will be directed to this URL.
 
 ### Available Scripts
 
