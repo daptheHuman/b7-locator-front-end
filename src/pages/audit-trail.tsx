@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { AuditTrailView } from 'src/sections/audit-train/view';
+import { AuditTrailView } from 'src/sections/audit-trail/view';
 
 // ----------------------------------------------------------------------
 
