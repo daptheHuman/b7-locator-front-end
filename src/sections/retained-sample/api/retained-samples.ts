@@ -7,7 +7,7 @@ import { CreateRetainedSample, UpdateAndDeleteRetainedSample } from '../types';
 
 const getRetainedSamples = () =>
   axios
-    .get<RetainedSample[]>('/retained/?skip=0&limit=100')
+    .get<RetainedSample[]>('/retained/?skip=0')
     .then((response) =>
       response.data.map((_sample) => ({
         ..._sample,

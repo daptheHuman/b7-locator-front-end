@@ -12,7 +12,7 @@ const createProduct = (newProduct: Product) =>
 
 const getProducts = () =>
   axios
-    .get<Product[]>('/products/?skip=0&limit=100')
+    .get<Product[]>('/products/?skip=0')
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;

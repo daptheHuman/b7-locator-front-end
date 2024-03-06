@@ -14,7 +14,7 @@ const createRack = (newRack: Rack) =>
 
 const getRacks = () =>
   axios
-    .get<Rack[]>('/rack/?skip=0&limit=100')
+    .get<Rack[]>('/rack/?skip=0')
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;

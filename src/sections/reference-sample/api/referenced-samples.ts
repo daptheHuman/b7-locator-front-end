@@ -7,7 +7,7 @@ import { CreateReferencedSample, UpdateAndDeleteReferencedSample } from '../type
 
 const getReferencedSamples = () =>
   axios
-    .get<ReferencedSample[]>('/reference/?skip=0&limit=100')
+    .get<ReferencedSample[]>('/reference/?skip=0')
     .then((response) =>
       response.data.map((_sample) => ({
         ..._sample,
