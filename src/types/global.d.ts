@@ -65,6 +65,7 @@ declare global {
   }
 
   interface User {
+    id: number;
     username: string;
     is_admin: boolean;
   }
@@ -74,7 +75,5 @@ declare global {
     token_type: string;
   }
 
-  interface Audit {
-    
-  }
+  interface Audit {}
 }
