@@ -53,7 +53,12 @@ const AuditDataGrid = ({
   };
 
   return (
-    <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        flexDirection: 'column',
+        height: '75vh',
+      }}
+    >
       <DataGrid
         rows={auditLog}
         columns={columns}
