@@ -16,7 +16,6 @@ import { UserContext } from 'src/authentication/user-context';
 
 import { RackRow } from 'src/sections/rack/types';
 import { ProductRow } from 'src/sections/product/types';
-import { Box } from '@mui/material';
 
 interface ProductRackDataGridProps {
   row: Product[] | Rack[];
