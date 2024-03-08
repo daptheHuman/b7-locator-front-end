@@ -6,7 +6,6 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { DataGrid, GridColDef, GridValueSetterParams } from '@mui/x-data-grid';
 
 import DestroyToolbar from './destroy-toolbar';
-import { DestroyPackageAndWeight } from '../types';
 import { convertToDestroyPackageAndWeight } from '../utils';
 import DestroyDialog from '../destroy-dialog/destroy-dialog';
 import { dateSetter, dateFormatter } from '../../../sections/reference-sample/utils';
@@ -103,7 +102,12 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
   }, []);
 
   return (
-    <Box sx={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        flexDirection: 'column',
+        height: '75vh',
+      }}
+    >
       <DestroyDialog
         open={packageWeightDialog}
         setOpen={setPackageWeightDialog}
