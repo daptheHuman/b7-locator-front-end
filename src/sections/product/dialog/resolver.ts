@@ -8,4 +8,6 @@ export const newProductSchema = object({
     .min(1, 'Product Name is required')
     .max(200, 'Product Name must less than 200 characters'),
   shelf_life: z.coerce.number().min(1),
+  product_type: string().min(1, 'Product Type is required'),
+  package: string().min(1, 'Product Type is required'),
 });

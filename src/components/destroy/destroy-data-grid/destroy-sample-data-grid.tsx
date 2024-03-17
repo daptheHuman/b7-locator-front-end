@@ -1,9 +1,11 @@
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { Box } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
+import { Box, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { DataGrid, GridColDef, GridValueSetterParams } from '@mui/x-data-grid';
+
+import { typeOptions } from 'src/sections/product/dialog/product-option';
 
 import DestroyToolbar from './destroy-toolbar';
 import { convertToDestroyPackageAndWeight } from '../utils';
@@ -12,12 +14,17 @@ import { dateSetter, dateFormatter } from '../../../sections/reference-sample/ut
 
 interface DestroyDataGridProps {
   samples: Sample[];
-  fetchData: (date: Dayjs) => void;
-  handleDestroy: (date: Dayjs, destroy_sample: DestroyPackageAndWeight[]) => void;
+  fetchData: (date: Dayjs, type: string) => void;
+  handleDestroy: (
+    date: Dayjs,
+    packageType: string,
+    destroy_sample: DestroyPackageAndWeight[]
+  ) => void;
 }
 
 const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridProps) => {
   const [selectedDate, setSelectedDate] = React.useState<Dayjs>(dayjs(Date.now()));
+  const [type, setType] = React.useState<string>('OOT');
   const [destroySample, setDestroySample] = React.useState<DestroyPackageAndWeight[]>(
     convertToDestroyPackageAndWeight(samples)
   );
@@ -29,15 +36,19 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
   }, [samples]);
 
   React.useEffect(() => {
-    fetchData(selectedDate);
-  }, [fetchData, selectedDate]);
+    fetchData(selectedDate, type);
+  }, [fetchData, selectedDate, type]);
 
   const handleDateChange = (date: Dayjs | null) => {
     setSelectedDate(dayjs(date));
   };
 
+  const handleTypeChange = (event: SelectChangeEvent<string>) => {
+    setType(event.target.value as string);
+  };
+
   const handleDestroyReports = () => {
-    handleDestroy(selectedDate, destroySample);
+    handleDestroy(selectedDate, type, destroySample);
   };
 
   const columns = React.useMemo(() => {
@@ -131,6 +142,14 @@ const DestroyDataGrid = ({ samples, fetchData, handleDestroy }: DestroyDataGridP
           defaultValue={selectedDate}
           onChange={handleDateChange}
         />
+
+        <Select value={type} onChange={handleTypeChange}>
+          {typeOptions.map((option, index) => (
+            <MenuItem key={index} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
       </Box>
       <DataGrid
         rows={samples}

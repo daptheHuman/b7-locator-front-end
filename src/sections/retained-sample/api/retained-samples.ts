@@ -47,24 +47,32 @@ const updateRetainedSample = (updatedRetainedSample: UpdateAndDeleteRetainedSamp
       throw error.response?.data;
     });
 
-const getDestroySamples = (date: Dayjs) => {
+const getDestroySamples = (date: Dayjs, prod_type: string) => {
   const month = date.month() + 1;
   const year = date.year();
   return axios
-    .get<ReferencedSample[]>(`/retained/destroy?month=${month}&year=${year}`)
+    .get<ReferencedSample[]>(`/retained/destroy?month=${month}&year=${year}&type=${prod_type}`)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data;
     });
 };
 
-const createDestroyReport = (date: Dayjs, packageWeight: DestroyPackageAndWeight[]) => {
+const createDestroyReport = (
+  date: Dayjs,
+  packageType: string,
+  packageWeight: DestroyPackageAndWeight[]
+) => {
   const month = date.month() + 1;
   const year = date.year();
   axios
-    .post(`/retained/generate-destroy-report?month=${month}&year=${year}`, packageWeight, {
-      responseType: 'blob',
-    })
+    .post(
+      `/retained/generate-destroy-report?month=${month}&year=${year}&package_type=${packageType}`,
+      packageWeight,
+      {
+        responseType: 'blob',
+      }
+    )
     .then((blob) => {
       const href = URL.createObjectURL(blob.data);
 

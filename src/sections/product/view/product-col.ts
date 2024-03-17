@@ -23,6 +23,20 @@ const productCol = (isAdmin: boolean): GridColDef[] => [
     headerAlign: 'center',
     headerClassName: 'font-header',
   },
+  {
+    headerName: 'Product Type',
+    field: 'product_type',
+    editable: isAdmin,
+    headerAlign: 'center',
+    headerClassName: 'font-header',
+  },
+  {
+    headerName: 'Package',
+    field: 'package',
+    editable: isAdmin,
+    headerAlign: 'center',
+    headerClassName: 'font-header',
+  },
 ];
 
 export default productCol;

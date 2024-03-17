@@ -50,14 +50,18 @@ export default function ReferencedSamplePage() {
     });
   }, []);
 
-  const fetchDestroySample = React.useCallback((date: Dayjs) => {
-    getDestroySamples(date).then((_samples) => {
+  const fetchDestroySample = React.useCallback((date: Dayjs, type: string) => {
+    getDestroySamples(date, type).then((_samples) => {
       setDestroySamples(_samples);
     });
   }, []);
 
-  const handleDestroy = (date: Dayjs, destroySample: DestroyPackageAndWeight[]) => {
-    createDestroyReport(date, destroySample);
+  const handleDestroy = (
+    date: Dayjs,
+    packageType: string,
+    destroySample: DestroyPackageAndWeight[]
+  ) => {
+    createDestroyReport(date, packageType, destroySample);
   };
 
   const handleProcessRowUpdate = React.useCallback(

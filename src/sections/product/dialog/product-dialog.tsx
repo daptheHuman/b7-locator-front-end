@@ -18,8 +18,11 @@ import {
   DialogContentText,
 } from '@mui/material';
 
+import DropdownInput from 'src/components/form-input/dropdown-input';
+
 import { newProductSchema } from './resolver';
 import { createProduct } from '../api/products';
+import { typeOptions, packageOptions } from './product-option';
 import FormInput from '../../../components/form-input/form-input';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -126,6 +129,23 @@ const ProductDialog = ({ open, setOpen, fetch }: RetainedSampleDialogProps) => {
               label="Shelf Life"
               sx={{ mb: 2 }}
             />
+            <DropdownInput
+              name="product_type"
+              required
+              fullWidth
+              label="Select types"
+              options={typeOptions}
+              sx={{ mb: 2 }}
+            />
+            <DropdownInput
+              name="package"
+              required
+              fullWidth
+              label="Select Package"
+              options={packageOptions}
+              sx={{ mb: 2 }}
+            />
+            {/* <FormInput name="package" required fullWidth label="Package" sx={{ mb: 2 }} /> */}
 
             <Button type="submit">Create</Button>
           </Box>

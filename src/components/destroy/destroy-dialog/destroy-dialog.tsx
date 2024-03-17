@@ -10,8 +10,6 @@ import {
   DialogContent,
 } from '@mui/material';
 
-import { DestroyPackageAndWeight } from '../types';
-
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -40,15 +38,6 @@ const DestroyDialog = ({
     setSamplesDestroy((prevSamples: DestroyPackageAndWeight[]) =>
       prevSamples.map((sample) =>
         sample.product_code === productCode ? { ...sample, weight } : sample
-      )
-    );
-    console.log(samplesDestroy);
-  };
-
-  const handlePackageChange = (productCode: string, pack: string) => {
-    setSamplesDestroy((prevSamples: DestroyPackageAndWeight[]) =>
-      prevSamples.map((sample) =>
-        sample.product_code === productCode ? { ...sample, package: pack } : sample
       )
     );
     console.log(samplesDestroy);
@@ -85,13 +74,6 @@ const DestroyDialog = ({
                 onChange={(e) =>
                   handleWeightChange(sample.product_code, parseFloat(e.target.value))
                 }
-              />
-              <TextField
-                name="package"
-                label="Package"
-                required
-                margin="normal"
-                onChange={(e) => handlePackageChange(sample.product_code, e.target.value)}
               />
             </DialogContent>
           ))}
